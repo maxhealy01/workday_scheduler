@@ -1,4 +1,6 @@
 $("#currentDay").text(moment().format('dddd MMMM Do'));
+
+// Initialize empty object to hold task info
 var tasks = {
   "9": [],
   "10": [],
@@ -11,7 +13,6 @@ var tasks = {
   "17": []
 };
 
-var textInput = "";
 // Set the color-changing functions for each task area
 var updateColor = function(){
   for (i = 9; i < 18; i++){
@@ -30,7 +31,7 @@ var updateColor = function(){
 
 
 // Create a function to make the taskholder areas turn into textareas on click.
-$(".taskholder").on("click", function(){
+/*$(".taskholder").on("click", function(){
   // create a variable to shift classes from taskholder to textarea
   var classList = $(this).attr("class");
   // create input area
@@ -47,7 +48,7 @@ $(".taskholder").on("click", function(){
   textInput.trigger("focus");
   console.log(textInput, textInput.value);
  // $(".saveBtn").on("click", saveText(textInput.value))
-})
+})*/
 
 var saveText = function(input){
   console.log(input);
