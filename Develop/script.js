@@ -16,56 +16,48 @@ var tasks = {
 // Set the color-changing functions for each task area
 var updateColor = function(){
   for (i = 9; i < 18; i++){
-    console.log("Chicken!")
   if (moment().hour() < i){
-    $(".taskholder." + i).addClass("future");
+    $("#" + i).addClass("future");
   }
   else if (moment().hour() > i){
-    $(".taskholder." + i).addClass("past");
+    $("#" + i).addClass("past");
   }
   else if (moment().hour() === i) {
-    $(".taskholder." + i).addClass("present");
+    $("#" + i).addClass("present");
   }
 }
 };
 
-
-// Create a function to make the taskholder areas turn into textareas on click.
-/*$(".taskholder").on("click", function(){
-  // create a variable to shift classes from taskholder to textarea
-  var classList = $(this).attr("class");
-  // create input area
-  var text = $(this)
-  .text()
-  .trim();
-
-  var textInput = $("<textarea>")
-    .val(text)
-    .addClass(classList);
-  textInput.value = document.querySelector("#taskholder")
-  // replace taskholder div with textarea
-  $(this).replaceWith(textInput);
-  textInput.trigger("focus");
-  console.log(textInput, textInput.value);
- // $(".saveBtn").on("click", saveText(textInput.value))
-})*/
-
-var saveText = function(input){
-  console.log(input);
+// Set the function to save task text
+var saveText = function(){
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
-$(".saveBtn").on("click", function(textInput){
-  // check if there's an <input> in dom 
-  var text = $(this)
-    .closest($(".row"))
-    .find($("<textarea>"))
 
-  console.log(textInput.value);
-  // take text from textarea click function
-  // save it to local storage
-  // close input
-  // take text, put into new p
+// Set the function to load task text
+var loadText = function() {
+  tasks = JSON.parse(localStorage.getItem("tasks"));
+  // loop over objects and show saved tasks in taskholders
+  for (i = 9; i < 18; i++){
+    $("#" + i)
+      .text(tasks[i])
+  }
+}
+
+$(".saveBtn").on("click", function(event){
+  event.preventDefault();
+
+  // Find the nearest text area's ID and value to set tasks
+  let textArea = $(event.target).closest(".row").find("textarea");
+  let time = textArea.attr("id");
+  let text = textArea.val().trim();
+
+  tasks[time] = [text];
+  saveText(tasks);
 })
 
 // Call the functions to update colors on page load and every 5 minutes
 updateColor()
 setInterval(updateColor,300000);
+
+// Call the function to load task text
+loadText();
