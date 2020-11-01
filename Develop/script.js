@@ -1,7 +1,7 @@
 $("#currentDay").text(moment().format('dddd MMMM Do'));
 
 // Initialize empty object to hold task info
-var tasks = {
+tasks = {
   "9": [],
   "10": [],
   "11": [],
@@ -12,6 +12,11 @@ var tasks = {
   "16": [],
   "17": []
 };
+
+// If no tasks have been set to local storage, set the array to local storage
+if (!JSON.parse(localStorage.getItem("tasks"))){
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 // Set the color-changing functions for each task area
 var updateColor = function(){
